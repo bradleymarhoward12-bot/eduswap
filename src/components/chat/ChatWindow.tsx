@@ -402,7 +402,7 @@ export function ChatWindow() {
   };
 
   return (
-    <div className="fixed bottom-4 right-2 z-40 flex h-[calc(100vh-7rem)] max-h-160 w-[calc(100vw-16px)] flex-col overflow-hidden rounded-2xl border bg-background shadow-2xl sm:bottom-6 sm:right-6 sm:h-[calc(100vh-7.5rem)] sm:max-h-168 sm:w-[24rem] md:top-23 md:bottom-auto md:h-[calc(100vh-7.25rem)]">
+    <div className="fixed bottom-4 right-2 z-40 flex h-[calc(100vh-7rem)] max-h-160 w-[calc(100vw-16px)] flex-col overflow-hidden rounded-2xl border bg-background shadow-2xl sm:bottom-6 sm:right-6 sm:h-[calc(100vh-7.5rem)] sm:max-h-168 sm:w-[24rem] lg:w-[28rem] xl:w-[32rem] 2xl:w-[36rem] md:top-23 md:bottom-auto md:h-[calc(100vh-7.25rem)]">
       {/* Header */}
       <div className="flex shrink-0 items-center justify-between border-b bg-primary px-3 py-2.5 text-primary-foreground sm:px-4">
         <div className="flex items-center gap-2 min-w-0">
