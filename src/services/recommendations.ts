@@ -49,39 +49,56 @@ const CURATED_LEARNING_RESOURCES: Array<{
   resources: CourseResource[];
 }> = [
   {
-    keywords: ["machine learning", "ml", "ai", "artificial intelligence", "data science"],
+    keywords: [
+      "machine learning",
+      "ml",
+      "ai",
+      "artificial intelligence",
+      "data science",
+    ],
     resources: [
       {
         id: "ml-1",
         courseCode: "ML101",
         title: "Hands-On Machine Learning",
-        description: "A practical starter for supervised learning, model evaluation, and pipelines.",
+        description:
+          "A practical starter for supervised learning, model evaluation, and pipelines.",
         type: "book",
       },
       {
         id: "ml-2",
         courseCode: "ML101",
         title: "FastAI Study Notes",
-        description: "Short notes that break down key machine learning concepts into reviewable chunks.",
+        description:
+          "Short notes that break down key machine learning concepts into reviewable chunks.",
         type: "notes",
       },
     ],
   },
   {
-    keywords: ["programming", "coding", "software", "computer science", "python", "java"],
+    keywords: [
+      "programming",
+      "coding",
+      "software",
+      "computer science",
+      "python",
+      "java",
+    ],
     resources: [
       {
         id: "cs-1",
         courseCode: "CS101",
         title: "Clean Code Fundamentals",
-        description: "A structured reference for building maintainable code and improving debugging habits.",
+        description:
+          "A structured reference for building maintainable code and improving debugging habits.",
         type: "book",
       },
       {
         id: "cs-2",
         courseCode: "CS101",
         title: "Programming Practice Pack",
-        description: "Exercises and notes for strengthening logic, syntax, and problem-solving.",
+        description:
+          "Exercises and notes for strengthening logic, syntax, and problem-solving.",
         type: "reviewer",
       },
     ],
@@ -93,14 +110,16 @@ const CURATED_LEARNING_RESOURCES: Array<{
         id: "math-1",
         courseCode: "MATH101",
         title: "Calculus Quick Review",
-        description: "Formula-driven notes for limits, derivatives, and integrals.",
+        description:
+          "Formula-driven notes for limits, derivatives, and integrals.",
         type: "notes",
       },
       {
         id: "math-2",
         courseCode: "MATH101",
         title: "Campus Math Problem Set",
-        description: "A focused problem set with worked examples for weekly review.",
+        description:
+          "A focused problem set with worked examples for weekly review.",
         type: "reviewer",
       },
     ],
@@ -112,7 +131,8 @@ const CURATED_LEARNING_RESOURCES: Array<{
         id: "biz-1",
         courseCode: "BUS101",
         title: "Business Essentials",
-        description: "A concise guide for core business concepts, accounting basics, and case review.",
+        description:
+          "A concise guide for core business concepts, accounting basics, and case review.",
         type: "book",
       },
       {
@@ -149,14 +169,13 @@ function normalizeCourseCode(courseCode?: string) {
 function tokenize(...parts: Array<string | undefined | null>) {
   return Array.from(
     new Set(
-      parts
-        .flatMap((part) =>
-          (part ?? "")
-            .toLowerCase()
-            .split(/[^a-z0-9]+/g)
-            .map((token) => token.trim())
-            .filter((token) => token.length > 2),
-        ),
+      parts.flatMap((part) =>
+        (part ?? "")
+          .toLowerCase()
+          .split(/[^a-z0-9]+/g)
+          .map((token) => token.trim())
+          .filter((token) => token.length > 2),
+      ),
     ),
   );
 }
@@ -210,7 +229,9 @@ function scoreListingMatch(listing: ListingItem, input: RelatedListingFilters) {
 
   if (inputTitle) {
     const titleTokens = tokenize(input.title);
-    const overlap = titleTokens.filter((token) => listingKeywords.includes(token));
+    const overlap = titleTokens.filter((token) =>
+      listingKeywords.includes(token),
+    );
     score += overlap.length * 14;
   }
 
@@ -417,6 +438,44 @@ export async function getCourseResources(
     }
   } catch (error) {
     console.error("Failed to load course resources", error);
+  }
+
+  // If there are no curated courseResources in Firestore, prefer matching
+  // marketplace listings for the requested course so tutors see exact items.
+  try {
+    if (courseCode) {
+      const normalizedCourseCode = normalizeCourseCode(courseCode);
+      const listingSnapshot = await getDocs(
+        query(
+          collection(db, "listings"),
+          where("courseCode", "==", normalizedCourseCode),
+          limit(6),
+        ),
+      );
+
+      const listingResources: CourseResource[] = listingSnapshot.docs
+        .map((entry) =>
+          mapListingDoc({
+            id: entry.id,
+            ...(entry.data() as Record<string, unknown>),
+          } as never),
+        )
+        .filter((l) => Boolean(l.title && l.id))
+        .map((l) => ({
+          id: `listing-${l.id}`,
+          courseCode: (l.courseCode || courseCode).trim().toUpperCase(),
+          title: l.title,
+          description: (l.description || "").slice(0, 240),
+          type: "book",
+          optionalListingId: l.id,
+        }));
+
+      if (listingResources.length > 0) {
+        return listingResources;
+      }
+    }
+  } catch (error) {
+    console.error("Failed to load marketplace listings as resources", error);
   }
 
   return curatedResourcesForCourse(courseCode, courseTitle);
