@@ -45,15 +45,15 @@ export default function Home() {
   };
 
   return (
-    <>
-      <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-white px-4 sm:px-6 lg:px-8">
-        <div className="relative mx-auto flex w-full max-w-3xl flex-col items-center justify-center gap-8 text-center py-16 sm:py-20">
+    <div className="flex flex-col">
+      <section className="relative flex min-h-[88vh] w-full flex-col items-center justify-start overflow-hidden bg-white px-4 pb-10 pt-6 sm:px-6 sm:pb-12 sm:pt-8 lg:px-8 lg:pb-16 lg:pt-10">
+        <div className="relative mx-auto mt-1 flex w-full max-w-5xl flex-col items-center justify-center gap-3 px-4 text-center sm:px-6 lg:px-8 lg:mt-2">
           <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white/75 px-5 py-2 text-sm font-semibold text-primary shadow-sm backdrop-blur">
             <Sparkles className="h-4 w-4" />
             Campus Marketplace
           </span>
 
-          <h1 className="text-balance text-4xl font-extrabold leading-[1.1] tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
+          <h1 className="text-balance text-4xl font-extrabold leading-[1.02] tracking-tight text-foreground sm:text-5xl md:text-6xl">
             Buy, sell, and learn
             <br />
             with your campus.
@@ -64,19 +64,20 @@ export default function Home() {
             find peer tutors for any course.
           </p>
 
-          <div className="flex w-full flex-col items-center justify-center gap-4 pt-4 sm:flex-row sm:w-auto">
+          <div className="flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
             <Button
-              className="h-11 px-8 text-sm font-semibold shadow-sm shadow-primary/20"
+              className="h-11 px-6 text-sm font-semibold shadow-sm shadow-primary/20"
               onClick={openSignup}
+              data-testid="btn-hero-signup"
             >
               Create Free Account
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
-
             <Button
               variant="outline"
-              className="h-11 px-8 text-sm font-semibold"
+              className="h-11 px-6 text-sm font-semibold"
               onClick={openSignin}
+              data-testid="btn-hero-signin"
             >
               Sign in
             </Button>
@@ -86,7 +87,7 @@ export default function Home() {
         <button
           onClick={scrollDown}
           aria-label="Scroll down"
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 rounded-full border border-border/50 bg-white/90 px-3 py-2 text-muted-foreground shadow-sm transition-colors hover:text-primary animate-bounce"
+          className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-1 rounded-full border border-border/50 bg-white/90 px-3 py-2 text-muted-foreground shadow-sm transition-colors hover:text-primary animate-bounce"
         >
           <ChevronDown className="h-5 w-5" />
         </button>
@@ -224,6 +225,6 @@ export default function Home() {
         onOpenChange={setIsAuthModalOpen}
         defaultTab={authDefaultTab}
       />
-    </>
+    </div>
   );
 }
