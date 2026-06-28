@@ -173,7 +173,7 @@ export function ChatWindow() {
 
     return (
       <div
-        className={`max-w-[min(92%,20rem)] sm:max-w-[24rem] rounded-2xl border p-3 shadow-sm ${isMine ? "ml-auto bg-background border-primary/20" : "bg-background"}`}
+        className={`max-w-[88%] sm:max-w-[78%] md:max-w-[68%] rounded-2xl border p-3 shadow-sm ${isMine ? "ml-auto bg-background border-primary/20" : "bg-background"}`}
       >
         <div className="flex items-start justify-between gap-3">
           <div>
@@ -255,13 +255,13 @@ export function ChatWindow() {
     const resources = Array.isArray(msg.resources) ? msg.resources : [];
 
     return (
-      <div className="max-w-[92%] rounded-2xl border p-4 shadow-sm bg-background border-primary/15">
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <p className="text-sm font-semibold">
+      <div className="max-w-[92%] sm:max-w-[84%] md:max-w-[72%] rounded-2xl border p-4 shadow-sm bg-background border-primary/15">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-sm font-semibold truncate">
               {msg.courseCode || "Course resources"}
             </p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground truncate">
               While waiting, these may help
             </p>
           </div>
@@ -279,10 +279,12 @@ export function ChatWindow() {
                 key={resource.id}
                 className="rounded-xl border bg-muted/20 p-3"
               >
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="text-sm font-semibold">{resource.title}</p>
-                    <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold truncate">
+                      {resource.title}
+                    </p>
+                    <p className="mt-1 text-xs text-muted-foreground leading-relaxed break-words">
                       {resource.description}
                     </p>
                   </div>
@@ -311,8 +313,8 @@ export function ChatWindow() {
 
   const renderMarketplaceInquiryCard = (msg: any) => {
     return (
-      <div className="max-w-[92%] rounded-2xl border p-4 shadow-sm bg-background border-primary/15">
-        <div className="flex items-start justify-between gap-3">
+      <div className="max-w-[88%] sm:max-w-[78%] md:max-w-[68%] rounded-2xl border p-4 shadow-sm bg-background border-primary/15">
+        <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <p className="text-sm font-semibold">
               {msg.listingTitle || "Marketplace inquiry"}
@@ -544,9 +546,9 @@ export function ChatWindow() {
                     ) : msg.type === "marketplace_inquiry" ? (
                       renderMarketplaceInquiryCard(msg)
                     ) : (
-                      <div className="flex max-w-[88%] sm:max-w-[70%] md:max-w-[60%] flex-col gap-1">
+                      <div className="flex min-w-0 max-w-[92%] sm:max-w-[84%] md:max-w-[72%] flex-col gap-1">
                         <div
-                          className={`rounded-[1.15rem] px-3 py-2 text-sm leading-6 whitespace-pre-wrap wrap-break-word break-all sm:break-normal shadow-sm group relative
+                          className={`max-w-full rounded-[1.15rem] px-3 py-2 text-sm leading-5 whitespace-pre-wrap break-words shadow-sm group relative
                             ${
                               isMine
                                 ? "bg-primary text-primary-foreground rounded-tr-[0.35rem]"
