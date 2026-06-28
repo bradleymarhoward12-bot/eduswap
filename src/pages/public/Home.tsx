@@ -46,8 +46,8 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-      <section className="relative flex min-h-[88vh] w-full flex-col items-center justify-start overflow-hidden bg-white px-4 pb-10 pt-6 sm:px-6 sm:pb-12 sm:pt-8 lg:px-8 lg:pb-16 lg:pt-10">
-        <div className="relative mx-auto mt-1 flex w-full max-w-5xl flex-col items-center justify-center gap-3 px-4 text-center sm:px-6 lg:px-8 lg:mt-2">
+      <section className="relative flex min-h-[88vh] w-full flex-col items-center justify-center overflow-hidden bg-white px-4 pb-10 pt-6 sm:px-6 sm:pb-12 sm:pt-8 lg:px-8 lg:pb-16 lg:pt-10">
+        <div className="relative mx-auto flex w-full max-w-5xl flex-col items-center justify-center gap-3 px-4 text-center sm:px-6 lg:px-8">
           <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white/75 px-5 py-2 text-sm font-semibold text-primary shadow-sm backdrop-blur">
             <Sparkles className="h-4 w-4" />
             Campus Marketplace
