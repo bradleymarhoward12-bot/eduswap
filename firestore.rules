@@ -42,6 +42,33 @@ service cloud.firestore {
         && data.images[0].size() > 0;
     }
 
+    function listingOwnerPayloadLooksValid(data) {
+      return data.title is string
+        && data.title.size() > 0
+        && data.description is string
+        && data.description.size() > 0
+        && data.price is number
+        && data.price >= 0
+        && data.category is string
+        && data.category.size() > 0
+        && data.condition is string
+        && data.condition.size() > 0
+        && data.sellerId is string
+        && data.sellerId.size() > 0
+        && data.sellerName is string
+        && data.sellerName.size() > 0
+        && data.imageUrl is string
+        && data.imageUrl.size() > 0
+        && listingImagesLookValid(data)
+        && (!data.keys().hasAny(["subcategory"]) || data.subcategory is string)
+        && (!data.keys().hasAny(["courseCode"]) || data.courseCode is string)
+        && (!data.keys().hasAny(["courseTitle"]) || data.courseTitle is string)
+        && (!data.keys().hasAny(["relatedCourseCodes"]) || data.relatedCourseCodes is list)
+        && (!data.keys().hasAny(["tags"]) || data.tags is list)
+        && (!data.keys().hasAny(["status"]) || data.status in ["active", "sold", "inactive"])
+        && (!data.keys().hasAny(["isAvailable"]) || data.isAvailable is bool);
+    }
+
     function tutorSubjectFieldsUnchanged() {
       return !request.resource.data.diff(resource.data).affectedKeys().hasAny(["subject", "subjects"]);
     }
@@ -55,14 +82,10 @@ service cloud.firestore {
       allow create: if signedIn()
         && request.auth.uid == request.resource.data.sellerId
         && request.resource.data.interestedCount == 0
-        && request.resource.data.imageUrl is string
-        && request.resource.data.imageUrl.size() > 0
-        && listingImagesLookValid(request.resource.data);
+        && listingOwnerPayloadLooksValid(request.resource.data);
       allow update: if signedIn() && (
         request.auth.uid == resource.data.sellerId
-        && request.resource.data.imageUrl is string
-        && request.resource.data.imageUrl.size() > 0
-        && (!request.resource.data.keys().hasAny(["images"]) || listingImagesLookValid(request.resource.data))
+        && listingOwnerPayloadLooksValid(request.resource.data)
         || (
           request.auth.uid != resource.data.sellerId
           && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["interestedCount", "savesCount", "likesCount", "interestedUsers", "latestInterestAt"])

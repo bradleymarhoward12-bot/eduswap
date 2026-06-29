@@ -109,9 +109,14 @@ export function ListingForm({
   }, [form, listing, isOpen]);
 
   const handleSubmit = async (data: ListingFormValues) => {
+    const submissionData = {
+      ...form.getValues(),
+      ...data,
+    } as ListingFormValues;
+
     const existingImages = [
-      data.images?.filter(Boolean) ?? [],
-      data.image ? [data.image] : [],
+      submissionData.images?.filter(Boolean) ?? [],
+      submissionData.image ? [submissionData.image] : [],
     ]
       .flat()
       .filter(Boolean);
@@ -137,7 +142,7 @@ export function ListingForm({
 
       await Promise.resolve(
         onSubmit({
-          ...data,
+          ...submissionData,
           image: uploadedImages[0],
           images: uploadedImages,
         }),
