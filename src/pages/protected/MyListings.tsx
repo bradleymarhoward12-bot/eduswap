@@ -64,7 +64,7 @@ export default function MyListings() {
 
     await createListing({
       title: data.title,
-      description: data.description,
+      description: data.description?.trim() || undefined,
       price: data.price,
       category: data.category,
       subcategory: data.subcategory?.trim() || undefined,
@@ -87,7 +87,7 @@ export default function MyListings() {
 
     await updateListing(editingListing.id, {
       title: data.title,
-      description: data.description,
+      description: data.description?.trim() || undefined,
       price: data.price,
       category: data.category,
       subcategory: data.subcategory?.trim() || undefined,

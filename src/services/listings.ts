@@ -21,7 +21,7 @@ import type { ListingItem } from "@/types";
 
 export interface ListingInput {
   title: string;
-  description: string;
+  description?: string;
   price: number;
   category: string;
   subcategory?: string;
@@ -157,6 +157,7 @@ export function subscribeToListingById(
 }
 
 export async function createListing(input: ListingInput): Promise<string> {
+  const description = input.description?.trim();
   const imageUrl = resolveListingImageUrl({
     imageUrl: input.imageUrl,
     images: input.images,
@@ -172,6 +173,7 @@ export async function createListing(input: ListingInput): Promise<string> {
     collection(db, "listings"),
     sanitizeListingPayload({
       ...input,
+      description: description || undefined,
       id: "",
       imageUrl,
       images: input.images?.filter(Boolean) ?? [imageUrl],
@@ -198,6 +200,7 @@ export async function updateListing(
   id: string,
   input: ListingUpdateInput,
 ): Promise<void> {
+  const description = input.description?.trim();
   const imageUrl = resolveListingImageUrl({
     imageUrl: input.imageUrl,
     images: input.images,
@@ -213,6 +216,7 @@ export async function updateListing(
     doc(db, "listings", id),
     sanitizeListingPayload({
       ...input,
+      description: description || undefined,
       imageUrl,
       images: input.images?.filter(Boolean) ?? [imageUrl],
       courseCode: courseCode || undefined,

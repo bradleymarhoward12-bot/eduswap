@@ -41,7 +41,7 @@ import {
 
 const schema = z.object({
   title: z.string().min(3, "Please add a title."),
-  description: z.string().min(10, "Please add a bit more detail."),
+  description: z.string().optional().or(z.literal("")),
   price: z.coerce.number().min(0, "Price cannot be negative."),
   category: z.string().min(1, "Select a category."),
   subcategory: z.string().optional().or(z.literal("")),
@@ -231,12 +231,12 @@ export function ListingForm({
                     name="description"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Tell buyers why it’s worth it</FormLabel>
+                        <FormLabel>Item description</FormLabel>
                         <FormControl>
                           <Textarea
                             {...field}
                             className="min-h-28 resize-none"
-                            placeholder="Add key details such as edition, condition, pickup options, and what’s included."
+                            placeholder="Optional. Add key details such as edition, condition, pickup options, and what’s included."
                           />
                         </FormControl>
                         <FormMessage />
