@@ -58,7 +58,6 @@ service cloud.firestore {
         && data.sellerName.size() > 0
         && data.imageUrl is string
         && data.imageUrl.size() > 0
-        && listingImagesLookValid(data)
         && (!data.keys().hasAny(["subcategory"]) || data.subcategory is string)
         && (!data.keys().hasAny(["courseCode"]) || data.courseCode is string)
         && (!data.keys().hasAny(["courseTitle"]) || data.courseTitle is string)
