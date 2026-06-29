@@ -34,7 +34,6 @@ const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = initializeFirestore(app, {
   experimentalForceLongPolling: true,
-  experimentalAutoDetectLongPolling: true,
 });
 
 export const isFirebaseConfigured = Boolean(
